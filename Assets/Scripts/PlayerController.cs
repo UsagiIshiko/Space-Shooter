@@ -14,7 +14,8 @@ public class Boundary
 public class PlayerController : MonoBehaviour
 {
 
-    private Rigidbody rb;   // Local Member Variable to hold the Rigidbody Reference
+    private Rigidbody rb;   // Local Member Variable to hold the Rigidbody reference
+    private AudioSource audioSource;    // Local Member Variable to hold AudioSource reference
 
     public float speed = 1.0f;      // Control the ship's speed
     public float tilt = 1.0f;       // Control the amount of tilting the craft does
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>(); // Access the local RigidBody component
+        audioSource = GetComponent<AudioSource>();  // Access the local AudioSource component
     }
 
     // Update is called once per frame
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
         {
             nextFire = Time.time + fireRate;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+            audioSource.Play();
         }
     }
 
