@@ -44,6 +44,7 @@ public class DestroyByContact : MonoBehaviour
         if (other.tag == "Player")
         {
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+            gameController.GameOver();  // Calls GameOver Function when Game is Over.
         }
         gameController.AddScore(scoreValue);
         Destroy(other.gameObject);      // Destroys the GameObject that hits the collider (the Asteroid)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;  // Required to use Scene Manager Commands
 
 public class GameController : MonoBehaviour
 {
@@ -13,12 +14,21 @@ public class GameController : MonoBehaviour
     public float waveWait = 1;
 
     public GUIText scoreText;
+    public GUIText restartText;
+    public GUIText gameOverText;
 
     private int score;
+    private bool gameOver;
+    private bool restart;
 
     // Use this for initialization
     void Start()
     {
+        gameOver = false;
+        restart = false;
+        restartText.text = "";
+        gameOverText.text = "";
+
         score = 0;
         UpdateScore();
         StartCoroutine(SpawnWaves());
@@ -27,7 +37,15 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (restart)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                // As Application.LoadLevel is deprecated, updated code to latest version
+                // Application.LoadLevel(Application.loadedLevel);     // Reloads the current loaded scene
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+        }
     }
 
     private IEnumerator SpawnWaves()
@@ -44,17 +62,30 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(spawnWait);
             }
             yield return new WaitForSeconds(waveWait);
+
+            if (gameOver)
+            {
+                restartText.text = "Press 'R' for Restart";
+                restart = true;
+                break;
+            }
         }
     }
 
-    void UpdateScore ()
+    void UpdateScore()
     {
         scoreText.text = "Score: " + score;
     }
 
-    public void AddScore (int newScoreValue)
+    public void AddScore(int newScoreValue)
     {
         score += newScoreValue;
         UpdateScore();
+    }
+
+    public void GameOver()
+    {
+        gameOverText.text = "Game Over!";
+        gameOver = true;
     }
 }
