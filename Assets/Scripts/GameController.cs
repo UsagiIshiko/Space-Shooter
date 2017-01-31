@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;  // Required to use Scene Manager Commands
 public class GameController : MonoBehaviour
 {
 
-    public GameObject hazard;
+    public GameObject[] hazards;
     public Vector3 spawnValues;
     public int hazardCount = 1;
     public float spawnWait = 1;
@@ -55,6 +55,7 @@ public class GameController : MonoBehaviour
         {
             for (int i = 0; i < hazardCount; i++)
             {
+                GameObject hazard = hazards[Random.Range (0, hazards.Length)];
                 // Spawns the Asteroid within a random range between x and -x, y, and z as specified by the inspector
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity; // Set Rotation to zero
