@@ -35,11 +35,16 @@ public class DestroyByContact : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log(other.name);        // Detects what GameObject is hitting the collider
-        if (other.tag == "Boundary")    // If other GameObject has the 'Boundary' tag
+        if (other.CompareTag ("Boundary") || other.CompareTag ("Enemy"))    // If other GameObject has the 'Boundary' tag
         {
             return;                     // End function here.
         }
-        Instantiate(explosion, transform.position, transform.rotation); // Create an explosion at the Asteroid's location
+
+        if (explosion != null)
+        {
+            Instantiate(explosion, transform.position, transform.rotation); // Create an explosion at the Asteroid's location
+        }
+
         // Create Player Explosion if Player hits the Asteroid
         if (other.tag == "Player")
         {
