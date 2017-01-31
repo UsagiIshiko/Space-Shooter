@@ -6,11 +6,24 @@ public class DestroyByContact : MonoBehaviour
 {
     public GameObject explosion;
     public GameObject playerExplosion;
+    public int scoreValue = 1;
+    private GameController gameController;
 
     // Use this for initialization
     void Start()
     {
-
+        // Find GameObject with GameController tag
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+        // If found, add the found GameController Instance reference to the gameController variable
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+        // If not found, send error
+        if (gameControllerObject == null)
+        {
+            Debug.Log("Cannot find 'GameController' script");
+        }
     }
 
     // Update is called once per frame
@@ -32,6 +45,7 @@ public class DestroyByContact : MonoBehaviour
         {
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
         }
+        gameController.AddScore(scoreValue);
         Destroy(other.gameObject);      // Destroys the GameObject that hits the collider (the Asteroid)
         Destroy(gameObject);            // Destroys the GameObject itself (the Asteroid itself)
     }
